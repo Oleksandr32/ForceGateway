@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -38,6 +37,10 @@ dependencies {
 
     // Support
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+
+    // Dagger
+    implementation libs.dagger
+    kapt libs.daggerCompiler
 
     // ReactiveX
     implementation libs.rxJava
