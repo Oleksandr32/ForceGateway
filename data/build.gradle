@@ -30,8 +30,14 @@ dependencies {
     // Module
     implementation project(":domain")
 
+    // Kotlin
+    implementation libs.kotlin
+
     // Support
     implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+
+    // ReactiveX
+    implementation libs.rxJava
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'

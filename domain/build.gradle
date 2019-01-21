@@ -2,6 +2,12 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Kotlin
+    implementation libs.kotlin
+
+    // ReactiveX
+    implementation libs.rxJava
 }
 
 sourceCompatibility = "7"

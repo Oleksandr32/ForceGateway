@@ -30,10 +30,13 @@ dependencies {
     implementation project(":data")
 
     // Kotlin
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation libs.kotlin
 
     // Support
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+
+    // ReactiveX
+    implementation libs.rxJava
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
