@@ -23,6 +23,11 @@ buildscript {
 }
 
 allprojects {
+    ext {
+        androidCompileSdkVersion = 28
+        androidMinSdkVersion = 21
+        androidTargetSdkVersion = 28
+    }
     repositories {
         google()
         jcenter()
