@@ -9,7 +9,8 @@ dependencies {
     implementation libs.kotlin
 
     // Dagger
-
+    implementation libs.dagger
+    kapt libs.daggerCompiler
 
     // ReactiveX
     implementation libs.rxJava
