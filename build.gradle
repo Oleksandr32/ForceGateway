@@ -6,7 +6,7 @@ buildscript {
         libs = [
                 kotlin: ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
                 dagger: ('com.google.dagger:dagger:' + dagger_version),
-                daggerCompiler: ('com.google.dagger:dagger-compiler' + dagger_version),
+                daggerCompiler: ('com.google.dagger:dagger-compiler:' + dagger_version),
                 rxJava: ('io.reactivex.rxjava2:rxjava:' + rx_java_version)
         ]
     }
