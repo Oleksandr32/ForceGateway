@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway
+package com.oleksandrlysun.forcegateway.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
