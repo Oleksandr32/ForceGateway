@@ -35,7 +35,7 @@ dependencies {
     implementation libs.kotlin
 
     // Support
-    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    implementation libs.support
 
     // Dagger
     implementation libs.dagger
@@ -45,6 +45,6 @@ dependencies {
     implementation libs.rxJava
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
