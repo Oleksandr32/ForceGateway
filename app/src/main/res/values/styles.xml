@@ -1,14 +1,34 @@
 <resources>
 
+	<!-- Theme -->
+
 	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
+		<item name="android:textColor">@color/colorText</item>
+		<item name="android:textColorPrimary">@color/colorPrimaryText</item>
+		<item name="android:textColorPrimaryInverse">@color/colorPrimaryTextInverse</item>
+		<item name="android:textColorSecondary">@color/colorSecondaryText</item>
 	</style>
 
 	<style name="AppTheme.NoActionBar" parent="AppTheme">
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 	</style>
+
+	<style name="AppTheme.Inverted" parent="AppTheme">
+		<item name="android:textColor">@color/colorTextInverse</item>
+		<item name="android:textColorPrimary">@color/colorPrimaryTextInverse</item>
+		<item name="android:textColorPrimaryInverse">@color/colorPrimaryText</item>
+	</style>
+
+	<style name="AppTheme.Widget.Toolbar" parent="AppTheme.Inverted">
+		<item name="android:background">?colorPrimary</item>
+	</style>
+
+	<!-- Text Appearance -->
+
+	<style name="TextAppearance.Widget.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
 </resources>
