@@ -2,6 +2,7 @@ package com.oleksandrlysun.forcegateway.presentation.screens.home.di
 
 import androidx.fragment.app.Fragment
 import com.oleksandrlysun.forcegateway.di.ActivityScope
+import com.oleksandrlysun.forcegateway.presentation.screens.home.FileViewerFragment
 import com.oleksandrlysun.forcegateway.presentation.screens.home.HomeActivity
 import com.oleksandrlysun.forcegateway.presentation.screens.home.HomeFragmentPagerAdapter
 import dagger.Module
@@ -13,7 +14,7 @@ class HomeModule(private val activity: HomeActivity) {
     @Provides
     @ActivityScope
     fun provideHomeFragmentPagerAdapter(): HomeFragmentPagerAdapter {
-        val fragments = listOf<Fragment>()
+        val fragments = listOf<Fragment>(FileViewerFragment(), FileViewerFragment())
         return HomeFragmentPagerAdapter(activity.supportFragmentManager, fragments)
     }
 }
