@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.oleksandrlysun.forcegateway.R
 
-class FileViewerFragment : Fragment() {
+class FeaturesOverviewFragment : Fragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(R.layout.fragment_file_viewer, container, false)
+		return inflater.inflate(R.layout.fragment_features_overview, container, false)
 	}
 }
