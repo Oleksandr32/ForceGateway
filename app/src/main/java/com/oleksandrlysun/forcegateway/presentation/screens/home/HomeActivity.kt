@@ -8,13 +8,15 @@ import com.google.android.material.tabs.TabLayout
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
 import com.oleksandrlysun.forcegateway.extension.bindView
+import com.oleksandrlysun.forcegateway.extension.setOnPageChangeListener
+import com.oleksandrlysun.forcegateway.extension.setOnTabSelectedListener
 import com.oleksandrlysun.forcegateway.presentation.screens.home.di.HomeModule
 import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
 
 	@Inject
-	lateinit var mPagerAdapter: HomeFragmentPagerAdapter
+	lateinit var mPagerAdapter: HomeTabsFragmentPagerAdapter
 
 	private val mToolbar by bindView<Toolbar>(R.id.toolbar)
 	private val mTabLayout by bindView<TabLayout>(R.id.tab_layout)
@@ -30,14 +32,20 @@ class HomeActivity : AppCompatActivity() {
 	private fun setupWidgets() {
 		setSupportActionBar(mToolbar)
 		supportActionBar?.setDisplayShowTitleEnabled(false)
-
-		mTabsViewPager.adapter = mPagerAdapter
-		mTabLayout.setupWithViewPager(mTabsViewPager)
+		mTabsViewPager.run {
+			adapter = mPagerAdapter
+			setOnPageChangeListener { position ->
+				mTabLayout.getTabAt(position)?.select()
+			}
+		}
+		mTabLayout.setOnTabSelectedListener { tab ->
+			mTabsViewPager.currentItem = tab.position
+		}
 	}
 
 	private fun injectDependencies() {
 		val module = HomeModule(this)
 		applicationComponent.getHomeComponent(module)
-			.inject(this)
+				.inject(this)
 	}
 }

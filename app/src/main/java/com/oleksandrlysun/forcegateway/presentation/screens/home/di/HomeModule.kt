@@ -1,10 +1,9 @@
 package com.oleksandrlysun.forcegateway.presentation.screens.home.di
 
-import androidx.fragment.app.Fragment
 import com.oleksandrlysun.forcegateway.di.ActivityScope
-import com.oleksandrlysun.forcegateway.presentation.screens.home.FileViewerFragment
+import com.oleksandrlysun.forcegateway.presentation.screens.home.FeaturesOverviewFragment
 import com.oleksandrlysun.forcegateway.presentation.screens.home.HomeActivity
-import com.oleksandrlysun.forcegateway.presentation.screens.home.HomeFragmentPagerAdapter
+import com.oleksandrlysun.forcegateway.presentation.screens.home.HomeTabsFragmentPagerAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -13,8 +12,10 @@ class HomeModule(private val activity: HomeActivity) {
 
     @Provides
     @ActivityScope
-    fun provideHomeFragmentPagerAdapter(): HomeFragmentPagerAdapter {
-        val fragments = listOf<Fragment>(FileViewerFragment(), FileViewerFragment())
-        return HomeFragmentPagerAdapter(activity.supportFragmentManager, fragments)
+    fun provideHomeTabsFragmentPagerAdapter(): HomeTabsFragmentPagerAdapter {
+        return HomeTabsFragmentPagerAdapter(activity.supportFragmentManager).apply {
+            fragments.add(FeaturesOverviewFragment())
+            fragments.add(FeaturesOverviewFragment())
+        }
     }
 }
