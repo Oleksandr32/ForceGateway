@@ -3,6 +3,8 @@
 	<!-- Theme -->
 
 	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+		<!-- Original AppCompat attributes. -->
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
@@ -10,6 +12,22 @@
 		<item name="android:textColorPrimary">@color/colorPrimaryText</item>
 		<item name="android:textColorPrimaryInverse">@color/colorPrimaryTextInverse</item>
 		<item name="android:textColorSecondary">@color/colorSecondaryText</item>
+
+		<!-- New MaterialComponents attributes. -->
+		<item name="textAppearanceHeadline1">@style/TextAppearance.Headline1</item>
+		<item name="textAppearanceHeadline2">@style/TextAppearance.Headline2</item>
+		<item name="textAppearanceHeadline3">@style/TextAppearance.Headline3</item>
+		<item name="textAppearanceHeadline4">@style/TextAppearance.Headline4</item>
+		<item name="textAppearanceHeadline5">@style/TextAppearance.Headline5</item>
+		<item name="textAppearanceHeadline6">@style/TextAppearance.Headline6</item>
+		<item name="textAppearanceSubtitle1">@style/TextAppearance.Subtitle1</item>
+		<item name="textAppearanceSubtitle2">@style/TextAppearance.Subtitle2</item>
+		<item name="textAppearanceSubhead">@style/TextAppearance.Subhead</item>
+		<item name="textAppearanceBody1">@style/TextAppearance.Body1</item>
+		<item name="textAppearanceBody2">@style/TextAppearance.Body2</item>
+		<item name="textAppearanceCaption">@style/TextAppearance.Caption</item>
+		<item name="textAppearanceButton">@style/TextAppearance.Button</item>
+		<item name="textAppearanceOverline">@style/TextAppearance.Overline</item>
 	</style>
 
 	<style name="AppTheme.NoActionBar" parent="AppTheme">
@@ -30,5 +48,22 @@
 	<!-- Text Appearance -->
 
 	<style name="TextAppearance.Widget.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title" />
+
+	<style name="TextAppearance.Headline1" parent="@style/TextAppearance.MaterialComponents.Headline1" />
+	<style name="TextAppearance.Headline2" parent="@style/TextAppearance.MaterialComponents.Headline2" />
+	<style name="TextAppearance.Headline3" parent="@style/TextAppearance.MaterialComponents.Headline3" />
+	<style name="TextAppearance.Headline4" parent="@style/TextAppearance.MaterialComponents.Headline4" />
+	<style name="TextAppearance.Headline5" parent="@style/TextAppearance.MaterialComponents.Headline5" />
+	<style name="TextAppearance.Headline6" parent="@style/TextAppearance.MaterialComponents.Headline6" />
+	<style name="TextAppearance.Subtitle1" parent="@style/TextAppearance.MaterialComponents.Subtitle1" />
+	<style name="TextAppearance.Subtitle2" parent="@style/TextAppearance.MaterialComponents.Subtitle2" />
+	<style name="TextAppearance.Body1" parent="@style/TextAppearance.MaterialComponents.Body1" />
+	<style name="TextAppearance.Body2" parent="@style/TextAppearance.MaterialComponents.Body2" />
+	<style name="TextAppearance.Caption" parent="@style/TextAppearance.MaterialComponents.Caption" />
+	<style name="TextAppearance.Button" parent="@style/TextAppearance.MaterialComponents.Button" />
+	<style name="TextAppearance.Overline" parent="@style/TextAppearance.MaterialComponents.Overline" />
+
+	<style name="TextAppearance.Subhead" parent="@style/TextAppearance.AppCompat.Subhead" />
+
 
 </resources>
