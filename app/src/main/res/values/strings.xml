@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ForceGateway</string>
+    <string name="app_name">Force Gateway</string>
+    <string name="tab_features_overview_title">Features Overview</string>
 </resources>
