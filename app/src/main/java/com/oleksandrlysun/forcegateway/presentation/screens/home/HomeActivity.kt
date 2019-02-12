@@ -7,9 +7,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
-import com.oleksandrlysun.forcegateway.extension.bindView
-import com.oleksandrlysun.forcegateway.extension.setOnPageChangeListener
-import com.oleksandrlysun.forcegateway.extension.setOnTabSelectedListener
+import com.oleksandrlysun.forcegateway.extensions.bindView
+import com.oleksandrlysun.forcegateway.extensions.setOnPageChangeListener
+import com.oleksandrlysun.forcegateway.extensions.setOnTabSelectedListener
 import com.oleksandrlysun.forcegateway.presentation.screens.home.di.HomeModule
 import javax.inject.Inject
 
