@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway.extension
+package com.oleksandrlysun.forcegateway.extensions
 
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout

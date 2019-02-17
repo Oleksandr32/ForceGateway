@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway.extension
+package com.oleksandrlysun.forcegateway.extensions
 
 import android.app.Activity
 import android.content.Context
