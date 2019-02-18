@@ -1,7 +1,7 @@
 package com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di
 
 import com.oleksandrlysun.forcegateway.di.ActivityScope
-import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionDelegate
+import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.EncryptActivity
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.EncryptView
 import dagger.Module
@@ -16,5 +16,5 @@ class EncryptModule(private val activity: EncryptActivity) {
 
 	@Provides
 	@ActivityScope
-	fun provideStoragePermissionDelegate(): StoragePermissionDelegate = activity
+	fun provideStoragePermissionsDelegate(): StoragePermissionsDelegate = activity
 }
