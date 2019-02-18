@@ -8,6 +8,7 @@
 	android:padding="24dp">
 
 	<androidx.cardview.widget.CardView
+		android:id="@+id/btn_encrypt_files"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="8dp"
