@@ -10,6 +10,7 @@ import com.oleksandrlysun.forcegateway.R
 import com.oleksandrlysun.forcegateway.extensions.bindView
 import com.oleksandrlysun.forcegateway.extensions.setOnPageChangeListener
 import com.oleksandrlysun.forcegateway.extensions.setOnTabSelectedListener
+import com.oleksandrlysun.forcegateway.presentation.screens.home.di.HomeComponent
 import com.oleksandrlysun.forcegateway.presentation.screens.home.di.HomeModule
 import javax.inject.Inject
 
@@ -17,6 +18,8 @@ class HomeActivity : AppCompatActivity() {
 
 	@Inject
 	lateinit var mPagerAdapter: HomeTabsFragmentPagerAdapter
+
+	internal lateinit var component: HomeComponent
 
 	private val mToolbar by bindView<Toolbar>(R.id.toolbar)
 	private val mTabLayout by bindView<TabLayout>(R.id.tab_layout)
@@ -45,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
 
 	private fun injectDependencies() {
 		val module = HomeModule(this)
-		applicationComponent.getHomeComponent(module)
-				.inject(this)
+		component = applicationComponent.getHomeComponent(module)
+		component.inject(this)
 	}
 }
