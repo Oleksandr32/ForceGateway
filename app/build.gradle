@@ -37,6 +37,7 @@ dependencies {
 
     // Support
     implementation libs.support
+    implementation libs.lifecycle
     implementation libs.material
 
     // Dagger

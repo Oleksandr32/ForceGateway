@@ -2,12 +2,14 @@ buildscript {
     ext {
         kotlin_version = '1.2.71'
         support_version = '1.0.2'
+        lifecycle_version = '2.0.0'
         material_version = '1.0.0'
         dagger_version = '2.16'
         rx_java_version = '2.2.5'
         libs = [
                 kotlin: ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
                 support: ('androidx.appcompat:appcompat:' + support_version),
+                lifecycle: ('androidx.lifecycle:lifecycle-extensions:' + lifecycle_version),
                 material: ('com.google.android.material:material:' + material_version),
                 dagger: ('com.google.dagger:dagger:' + dagger_version),
                 daggerCompiler: ('com.google.dagger:dagger-compiler:' + dagger_version),
