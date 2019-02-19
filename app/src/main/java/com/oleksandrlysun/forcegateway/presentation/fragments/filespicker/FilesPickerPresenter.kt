@@ -1,5 +1,6 @@
 package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
+import com.oleksandrlysun.forcegateway.di.FragmentScope
 import com.oleksandrlysun.forcegateway.domain.interactors.StorageInteractor
 import com.oleksandrlysun.forcegateway.extensions.uiThread
 import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
@@ -8,6 +9,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
+@FragmentScope
 class FilesPickerPresenter @Inject constructor(
 		private val view: FilesPickerView,
 		private val storagePermissionsDelegate: StoragePermissionsDelegate,

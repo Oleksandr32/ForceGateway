@@ -8,7 +8,7 @@ import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesP
 class EncryptRouter(private val activity: AppCompatActivity) {
 
 	fun navigateToFilesPicker() {
-		navigateToFragment(FilesPickerFragment())
+		navigateToFragment(FilesPickerFragment(), addToBackStack = false)
 	}
 
 	fun finish() {
