@@ -4,4 +4,28 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical">
 
+	<com.google.android.material.appbar.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?actionBarSize"
+			android:theme="@style/AppTheme.Widget.Toolbar">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:text="@string/encrypt_files_title"
+				android:textAppearance="@style/TextAppearance.Widget.Toolbar.Title" />
+		</androidx.appcompat.widget.Toolbar>
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<FrameLayout
+		android:id="@+id/fragmentContainer"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1" />
 </LinearLayout>

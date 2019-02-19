@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Module
 class DataModule(private val context: Context) {
 
-    @Provides
-    @Singleton
-    fun provideStorageService(): StorageService = StorageServiceImpl()
+	@Provides
+	@Singleton
+	fun provideStorageService(): StorageService = StorageServiceImpl()
 }

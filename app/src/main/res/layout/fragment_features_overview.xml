@@ -35,7 +35,7 @@
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="Title"
+					android:text="@string/encrypt_files_title"
 					android:textAppearance="?textAppearanceSubhead" />
 
 				<TextView
