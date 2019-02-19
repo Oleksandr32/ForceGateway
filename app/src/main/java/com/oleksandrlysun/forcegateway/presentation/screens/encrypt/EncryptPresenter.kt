@@ -1,25 +1,19 @@
 package com.oleksandrlysun.forcegateway.presentation.screens.encrypt
 
 import com.oleksandrlysun.forcegateway.di.ActivityScope
-import com.oleksandrlysun.forcegateway.domain.boundaries.StorageService
-import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
 import javax.inject.Inject
 
 @ActivityScope
 class EncryptPresenter @Inject constructor(
 		private val view: EncryptView,
-		private val storagePermissionsDelegate: StoragePermissionsDelegate,
-		private val storageService: StorageService
+		private val router: EncryptRouter
 ) {
 
 	init {
-		checkPermissions()
+		router.navigateToFilesPicker()
 	}
 
-	private fun checkPermissions() {
-		val hasPermissions = storagePermissionsDelegate.hasStoragePermissions()
-		if (!hasPermissions) {
-			storagePermissionsDelegate.requestStoragePermissions()
-		}
+	fun onStoragePermissionsDenied() {
+		router.finish()
 	}
 }
