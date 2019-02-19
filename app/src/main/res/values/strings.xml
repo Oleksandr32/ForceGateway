@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Force Gateway</string>
-    <string name="tab_features_overview_title">Features Overview</string>
-    <string name="btn_encrypt_files_title">Encrypt Files</string>
+	<string name="app_name">Force Gateway</string>
+	<string name="tab_features_overview_title">Features Overview</string>
+	<string name="encrypt_files_title">Encrypt Files</string>
 </resources>
