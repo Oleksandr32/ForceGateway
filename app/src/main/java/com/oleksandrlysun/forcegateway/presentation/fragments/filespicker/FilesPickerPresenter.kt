@@ -4,6 +4,7 @@ import com.oleksandrlysun.forcegateway.di.FragmentScope
 import com.oleksandrlysun.forcegateway.domain.interactors.StorageInteractor
 import com.oleksandrlysun.forcegateway.extensions.uiThread
 import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
+import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePickerState.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -17,22 +18,31 @@ class FilesPickerPresenter @Inject constructor(
 ) {
 
 	private val mDisposables = CompositeDisposable()
+	private var mPath: String? = null
 
 	init {
 		checkPermissions()
 	}
 
 	fun onStoragePermissionsGranted() {
-		storageInteractor.getAllFiles()
+		storageInteractor.getFiles(mPath)
 				.uiThread()
 				.subscribeBy(
 						onSuccess = { files ->
-							view.setFiles(files)
+							if (files.isEmpty()) {
+								view.setFilesPickerState(EMPTY)
+							} else {
+								view.setFilesPickerState(FETCHED)
+								view.setFiles(files)
+							}
 						},
-						onError = {
-							it.printStackTrace()
-						}
-				).addTo(mDisposables)
+						onError = Throwable::printStackTrace
+				)
+				.addTo(mDisposables)
+	}
+
+	fun onPathChanged(newPath: String?) {
+		mPath = newPath
 	}
 
 	private fun checkPermissions() {
