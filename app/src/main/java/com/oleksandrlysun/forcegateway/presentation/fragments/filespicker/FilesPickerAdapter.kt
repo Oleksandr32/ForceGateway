@@ -7,36 +7,54 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.oleksandrlysun.forcegateway.R
+import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import com.oleksandrlysun.forcegateway.domain.models.FileType
 import com.oleksandrlysun.forcegateway.extensions.bindView
-import java.io.File
 
 class FilesPickerAdapter : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
 
-	var items = emptyList<File>()
-		set(value) {
-			field = value
-			notifyDataSetChanged()
-		}
+    interface Listener {
 
-	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
-		return ViewHolder(itemView)
-	}
+        fun onItemClick(fileModel: FileModel)
 
-	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val item = items[position]
-		val imageIdRes = if (item.isDirectory) R.drawable.ic_folder else R.drawable.ic_file
-		with(holder) {
-			fileImageView.setImageResource(imageIdRes)
-			fileNameTextView.text = item.name
-		}
-	}
+        fun onItemLongClick(fileModel: FileModel)
+    }
 
-	override fun getItemCount() = items.size
+    var listener: Listener? = null
 
-	class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private var mItems = emptyList<FileModel>()
 
-		val fileImageView by bindView<ImageView>(R.id.image_file)
-		val fileNameTextView by bindView<TextView>(R.id.text_file_name)
-	}
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
+        return ViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = mItems[position]
+        val imageIdRes = if (item.type == FileType.FILE) R.drawable.ic_file else R.drawable.ic_folder
+        with(holder) {
+            fileImageView.setImageResource(imageIdRes)
+            fileNameTextView.text = item.name
+            itemView.setOnClickListener {
+                listener?.onItemClick(item)
+            }
+            itemView.setOnLongClickListener {
+                listener?.onItemLongClick(item)
+                return@setOnLongClickListener true
+            }
+        }
+    }
+
+    override fun getItemCount() = mItems.size
+
+    fun setItems(items: List<FileModel>) {
+        mItems = items
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val fileImageView by bindView<ImageView>(R.id.image_file)
+        val fileNameTextView by bindView<TextView>(R.id.text_file_name)
+    }
 }
