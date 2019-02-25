@@ -1,9 +1,11 @@
 package com.oleksandrlysun.forcegateway.domain.boundaries
 
+import com.oleksandrlysun.forcegateway.domain.models.FileModel
 import io.reactivex.Single
-import java.io.File
 
 interface StorageService {
 
-    fun getAllFiles(): Single<List<File>>
+	fun getFiles(): Single<List<FileModel>>
+
+	fun getFiles(path: String): Single<List<FileModel>>
 }
