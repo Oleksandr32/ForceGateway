@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
+package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
 
 import com.oleksandrlysun.forcegateway.domain.models.FileModel
 
