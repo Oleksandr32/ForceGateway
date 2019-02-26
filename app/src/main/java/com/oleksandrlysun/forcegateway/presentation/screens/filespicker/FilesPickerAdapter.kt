@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
+package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
 
 import android.view.LayoutInflater
 import android.view.View

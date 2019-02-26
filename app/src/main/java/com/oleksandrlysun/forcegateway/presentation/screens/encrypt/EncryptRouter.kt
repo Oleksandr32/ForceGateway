@@ -3,12 +3,13 @@ package com.oleksandrlysun.forcegateway.presentation.screens.encrypt
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.oleksandrlysun.forcegateway.R
-import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerFragment
+import com.oleksandrlysun.forcegateway.extensions.startActivity
+import com.oleksandrlysun.forcegateway.presentation.screens.filespicker.FilesPickerActivity
 
 class EncryptRouter(private val activity: AppCompatActivity) {
 
 	fun navigateToFilesPicker() {
-		navigateToFragment(FilesPickerFragment(), addToBackStack = false)
+		activity.startActivity<FilesPickerActivity>()
 	}
 
 	fun finish() {
