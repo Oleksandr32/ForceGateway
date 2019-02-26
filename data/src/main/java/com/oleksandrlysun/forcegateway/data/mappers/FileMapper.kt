@@ -14,7 +14,7 @@ object FileMapper : Mapper<File, FileModel>() {
 				name = value.name,
 				sizeInMB = convertBytesToMB(value.length()),
 				extension = value.extension,
-				subFiles = value.listFiles().size
+				subFiles = value.listFiles()?.size ?: 0
 		)
 	}
 

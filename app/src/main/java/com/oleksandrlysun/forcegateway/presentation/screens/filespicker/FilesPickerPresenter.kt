@@ -3,49 +3,63 @@ package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
 import com.oleksandrlysun.forcegateway.di.ActivityScope
 import com.oleksandrlysun.forcegateway.domain.interactors.StorageInteractor
 import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import com.oleksandrlysun.forcegateway.domain.models.FileType
 import com.oleksandrlysun.forcegateway.extensions.uiThread
 import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
 import com.oleksandrlysun.forcegateway.presentation.screens.filespicker.FilePickerState.*
+import com.oleksandrlysun.forcegateway.utils.lazyUnsynchronized
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
+import javax.inject.Provider
 
 @ActivityScope
 class FilesPickerPresenter @Inject constructor(
 		private val router: FilesPickerRouter,
-		private val view: FilesPickerView?,
+		viewProvider: Provider<FilesPickerView>,
 		private val storagePermissionsDelegate: StoragePermissionsDelegate,
 		private val storageInteractor: StorageInteractor
-) {
+) : FilesPickerListener {
 
-	private val mDisposables = CompositeDisposable()
+	private val view by lazyUnsynchronized { viewProvider.get() }
+
 	private var mPath: String? = null
+	private val mDisposables = CompositeDisposable()
 
 	init {
 		checkPermissions()
 	}
 
+	override fun onFileClick(fileModel: FileModel) {
+		if (fileModel.type == FileType.FOLDER) {
+			router.navigateToFilesPicker(fileModel.path)
+		}
+	}
+
+	override fun onFileLongClick(fileModel: FileModel) {
+
+	}
+
 	fun onStoragePermissionsGranted() {
 		router.navigateToFilesPicker()
+	}
+
+	fun getFiles() {
 		storageInteractor.getFiles(mPath)
 				.uiThread()
 				.subscribeBy(
 						onSuccess = { files ->
 							if (files.isEmpty()) {
-								view?.setFilesPickerState(EMPTY)
+								view.setFilesPickerState(EMPTY)
 							} else {
-								view?.setFilesPickerState(FETCHED)
-								view?.setFiles(files)
+								view.setFilesPickerState(FETCHED)
+								view.setFiles(files)
 							}
 						},
 						onError = Throwable::printStackTrace
 				)
 				.addTo(mDisposables)
-	}
-
-	fun onFileClick(fileModel: FileModel) {
-		router.navigateToFilesPicker(fileModel.path)
 	}
 
 	fun onPathChanged(newPath: String?) {

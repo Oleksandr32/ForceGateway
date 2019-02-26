@@ -11,8 +11,8 @@ import kotlin.reflect.KProperty
 
 class FragmentBinder<out ViewT : View>(
 		private val fragment: Fragment,
-		private val initializer: (Fragment) -> ViewT
-) : ReadOnlyProperty<Fragment, ViewT>, LifecycleObserver {
+		private val initializer: (Fragment) -> ViewT?
+) : ReadOnlyProperty<Fragment, ViewT?>, LifecycleObserver {
 
 	private object EMPTY
 
@@ -24,12 +24,12 @@ class FragmentBinder<out ViewT : View>(
 		})
 	}
 
-	override fun getValue(thisRef: Fragment, property: KProperty<*>): ViewT {
+	override fun getValue(thisRef: Fragment, property: KProperty<*>): ViewT? {
 		if (mViewValue === EMPTY) {
 			mViewValue = initializer(fragment)
 		}
 		@Suppress("UNCHECKED_CAST")
-		return mViewValue as ViewT
+		return mViewValue as ViewT?
 	}
 
 	@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

@@ -15,7 +15,7 @@ import com.oleksandrlysun.forcegateway.presentation.screens.filespicker.di.Files
 import com.oleksandrlysun.forcegateway.presentation.screens.filespicker.di.FilesPickerModule
 import javax.inject.Inject
 
-class FilesPickerActivity : AppCompatActivity(), StoragePermissionsDelegate, FilesPickerListener {
+class FilesPickerActivity : AppCompatActivity(), StoragePermissionsDelegate {
 
 	@Inject
 	lateinit var presenter: FilesPickerPresenter
@@ -47,14 +47,6 @@ class FilesPickerActivity : AppCompatActivity(), StoragePermissionsDelegate, Fil
 
 	override fun requestStoragePermissions() {
 		ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, STORAGE_PERMISSION_REQUEST_CODE)
-	}
-
-	override fun onFileClick(fileModel: FileModel) {
-		presenter.onFileClick(fileModel)
-	}
-
-	override fun onFileLongClick(fileModel: FileModel) {
-		TODO("not implemented")
 	}
 
 	private fun createComponent() {

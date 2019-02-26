@@ -10,51 +10,43 @@ import com.oleksandrlysun.forcegateway.R
 import com.oleksandrlysun.forcegateway.domain.models.FileModel
 import com.oleksandrlysun.forcegateway.domain.models.FileType
 import com.oleksandrlysun.forcegateway.extensions.bindView
+import javax.inject.Inject
 
-class FilesPickerAdapter : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
+class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerListener) : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
 
-    interface Listener {
+	private var mItems = emptyList<FileModel>()
 
-        fun onItemClick(fileModel: FileModel)
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
+		return ViewHolder(itemView)
+	}
 
-        fun onItemLongClick(fileModel: FileModel)
-    }
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		val item = mItems[position]
+		val imageIdRes = if (item.type == FileType.FILE) R.drawable.ic_file else R.drawable.ic_folder
+		with(holder) {
+			fileImageView.setImageResource(imageIdRes)
+			fileNameTextView.text = item.name
+			itemView.setOnClickListener {
+				listener.onFileClick(item)
+			}
+			itemView.setOnLongClickListener {
+				listener.onFileLongClick(item)
+				return@setOnLongClickListener true
+			}
+		}
+	}
 
-    var listener: Listener? = null
+	override fun getItemCount() = mItems.size
 
-    private var mItems = emptyList<FileModel>()
+	fun setItems(items: List<FileModel>) {
+		mItems = items
+		notifyDataSetChanged()
+	}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
-        return ViewHolder(itemView)
-    }
+	class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mItems[position]
-        val imageIdRes = if (item.type == FileType.FILE) R.drawable.ic_file else R.drawable.ic_folder
-        with(holder) {
-            fileImageView.setImageResource(imageIdRes)
-            fileNameTextView.text = item.name
-            itemView.setOnClickListener {
-                listener?.onItemClick(item)
-            }
-            itemView.setOnLongClickListener {
-                listener?.onItemLongClick(item)
-                return@setOnLongClickListener true
-            }
-        }
-    }
-
-    override fun getItemCount() = mItems.size
-
-    fun setItems(items: List<FileModel>) {
-        mItems = items
-        notifyDataSetChanged()
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val fileImageView by bindView<ImageView>(R.id.image_file)
-        val fileNameTextView by bindView<TextView>(R.id.text_file_name)
-    }
+		val fileImageView by bindView<ImageView>(R.id.image_file)
+		val fileNameTextView by bindView<TextView>(R.id.text_file_name)
+	}
 }
