@@ -1,4 +1,4 @@
-package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
+package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerListener) : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
 
-	private var mItems = emptyList<FileModel>()
+	private var items = emptyList<FileModel>()
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
@@ -22,7 +22,7 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 	}
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val item = mItems[position]
+		val item = items[position]
 		val imageIdRes = if (item.type == FileType.FILE) R.drawable.ic_file else R.drawable.ic_folder
 		with(holder) {
 			fileImageView.setImageResource(imageIdRes)
@@ -37,10 +37,12 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 		}
 	}
 
-	override fun getItemCount() = mItems.size
+	override fun getItemCount(): Int {
+		return items.size
+	}
 
 	fun setItems(items: List<FileModel>) {
-		mItems = items
+		this.items = items
 		notifyDataSetChanged()
 	}
 

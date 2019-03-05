@@ -8,9 +8,16 @@ import javax.inject.Inject
 
 class StorageInteractor @Inject constructor(private val storageService: StorageService) {
 
-	fun getFiles(path: String?): Single<List<FileModel>> {
-		return storageService.run {
-			path?.let { getFiles(it) } ?: getFiles()
-		}.subscribeOn(Schedulers.io())
+	companion object {
+
+		private const val PATH = "Force Gateway Storage"
+	}
+
+	fun getFiles(): Single<List<FileModel>> {
+		if (!storageService.isFolderExists(PATH)) {
+			storageService.createFolder(PATH)
+		}
+		return storageService.getFiles(PATH)
+				.subscribeOn(Schedulers.io())
 	}
 }

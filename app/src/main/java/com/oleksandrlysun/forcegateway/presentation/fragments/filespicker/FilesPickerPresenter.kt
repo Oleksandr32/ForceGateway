@@ -1,52 +1,39 @@
-package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
+package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
-import com.oleksandrlysun.forcegateway.di.ActivityScope
+import com.oleksandrlysun.forcegateway.di.FragmentScope
 import com.oleksandrlysun.forcegateway.domain.interactors.StorageInteractor
 import com.oleksandrlysun.forcegateway.domain.models.FileModel
-import com.oleksandrlysun.forcegateway.domain.models.FileType
 import com.oleksandrlysun.forcegateway.extensions.uiThread
 import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
-import com.oleksandrlysun.forcegateway.presentation.screens.filespicker.FilePickerState.*
-import com.oleksandrlysun.forcegateway.utils.lazyUnsynchronized
+import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePickerState.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
-import javax.inject.Provider
 
-@ActivityScope
+@FragmentScope
 class FilesPickerPresenter @Inject constructor(
-		private val router: FilesPickerRouter,
-		viewProvider: Provider<FilesPickerView>,
+		private val view: FilesPickerView,
 		private val storagePermissionsDelegate: StoragePermissionsDelegate,
 		private val storageInteractor: StorageInteractor
 ) : FilesPickerListener {
 
-	private val view by lazyUnsynchronized { viewProvider.get() }
-
-	private var mPath: String? = null
-	private val mDisposables = CompositeDisposable()
+	private val disposables = CompositeDisposable()
 
 	init {
 		checkPermissions()
 	}
 
 	override fun onFileClick(fileModel: FileModel) {
-		if (fileModel.type == FileType.FOLDER) {
-			router.navigateToFilesPicker(fileModel.path)
-		}
+		TODO()
 	}
 
 	override fun onFileLongClick(fileModel: FileModel) {
-
+		TODO()
 	}
 
 	fun onStoragePermissionsGranted() {
-		router.navigateToFilesPicker()
-	}
-
-	fun getFiles() {
-		storageInteractor.getFiles(mPath)
+		storageInteractor.getFiles()
 				.uiThread()
 				.subscribeBy(
 						onSuccess = { files ->
@@ -59,11 +46,7 @@ class FilesPickerPresenter @Inject constructor(
 						},
 						onError = Throwable::printStackTrace
 				)
-				.addTo(mDisposables)
-	}
-
-	fun onPathChanged(newPath: String?) {
-		mPath = newPath
+				.addTo(disposables)
 	}
 
 	private fun checkPermissions() {

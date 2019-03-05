@@ -5,7 +5,9 @@ import io.reactivex.Single
 
 interface StorageService {
 
-	fun getFiles(): Single<List<FileModel>>
+	fun isFolderExists(path: String): Boolean
+
+	fun createFolder(path: String)
 
 	fun getFiles(path: String): Single<List<FileModel>>
 }

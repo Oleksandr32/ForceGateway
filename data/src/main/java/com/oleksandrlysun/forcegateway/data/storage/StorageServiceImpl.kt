@@ -14,18 +14,38 @@ import java.io.File
 class StorageServiceImpl : StorageService {
 
 	@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-	override fun getFiles(): Single<List<FileModel>> {
-		val path = Environment.getExternalStorageDirectory().absolutePath
-		return getFiles(path)
+	override fun isFolderExists(path: String): Boolean {
+		return File(path).exists()
 	}
 
 	@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 	override fun getFiles(path: String): Single<List<FileModel>> {
 		return Single.fromCallable {
-			return@fromCallable File(path)
-					.listFiles()
-					.toList()
-					.map(FileMapper::toDomainModel)
+			val root = Environment.getExternalStorageDirectory()
+			val folder = File(root, path)
+			return@fromCallable getFiles(folder).map(FileMapper::toDomainModel)
 		}
+	}
+
+	private fun getFiles(folder: File): List<File> {
+		val files = mutableListOf<File>()
+		folder.listFiles()
+				.forEach { file ->
+					if (file.isDirectory) {
+						files.addAll(getFiles(file))
+					} else {
+						files.add(file)
+					}
+				}
+		return files
+	}
+
+	override fun createFolder(path: String) {
+		val root = Environment.getExternalStorageDirectory()
+		val folder = File(root, path).apply {
+			setExecutable(false)
+			setWritable(false)
+		}
+		folder.mkdir()
 	}
 }
