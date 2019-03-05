@@ -24,9 +24,9 @@ fun <ViewT : View> Activity.bindView(@IdRes idRes: Int): Lazy<ViewT> {
 	}
 }
 
-fun <ViewT : View> Fragment.bindView(@IdRes idRes: Int): ReadOnlyProperty<Fragment, ViewT> {
+fun <ViewT : View> Fragment.bindView(@IdRes idRes: Int): ReadOnlyProperty<Fragment, ViewT?> {
 	return FragmentBinder(this) { fragment ->
-		fragment.view!!.findViewById<ViewT>(idRes)
+		fragment.view?.findViewById<ViewT>(idRes)
 	}
 }
 

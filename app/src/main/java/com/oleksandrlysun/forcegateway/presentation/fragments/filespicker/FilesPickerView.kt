@@ -1,6 +1,7 @@
-package com.oleksandrlysun.forcegateway.presentation.screens.filespicker
+package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
 import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePickerState
 
 interface FilesPickerView {
 

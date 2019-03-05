@@ -4,11 +4,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
+import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerOutput
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptModule
 import javax.inject.Inject
 
-class EncryptActivity : AppCompatActivity(), EncryptView {
+class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 
 	@Inject
 	lateinit var presenter: EncryptPresenter
@@ -19,6 +20,10 @@ class EncryptActivity : AppCompatActivity(), EncryptView {
 		super.onCreate(savedInstanceState)
 		injectDependencies()
 		setContentView(R.layout.activity_encrypt)
+	}
+
+	override fun onStoragePermissionDenied() {
+		presenter.onStoragePermissionsDenied()
 	}
 
 	private fun injectDependencies() {
