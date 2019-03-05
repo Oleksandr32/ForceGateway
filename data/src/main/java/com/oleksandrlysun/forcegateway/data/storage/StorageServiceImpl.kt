@@ -15,7 +15,16 @@ class StorageServiceImpl : StorageService {
 
 	@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
 	override fun isFolderExists(path: String): Boolean {
-		return File(path).exists()
+		val root = Environment.getExternalStorageDirectory()
+		val folder = File(root, path)
+		return folder.exists()
+	}
+
+	@RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+	override fun createFolder(path: String) {
+		val root = Environment.getExternalStorageDirectory()
+		val folder = File(root, path)
+		folder.mkdir()
 	}
 
 	@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -38,14 +47,5 @@ class StorageServiceImpl : StorageService {
 					}
 				}
 		return files
-	}
-
-	override fun createFolder(path: String) {
-		val root = Environment.getExternalStorageDirectory()
-		val folder = File(root, path).apply {
-			setExecutable(false)
-			setWritable(false)
-		}
-		folder.mkdir()
 	}
 }
