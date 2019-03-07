@@ -2,8 +2,11 @@ package com.oleksandrlysun.forcegateway.presentation.screens.encrypt
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
+import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import com.oleksandrlysun.forcegateway.extensions.bindView
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerOutput
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptModule
@@ -16,10 +19,22 @@ class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 
 	internal lateinit var component: EncryptComponent
 
+	private val toolbar by bindView<Toolbar>(R.id.toolbar)
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		injectDependencies()
 		setContentView(R.layout.activity_encrypt)
+		setupToolbar()
+	}
+
+	override fun onSupportNavigateUp(): Boolean {
+		finish()
+		return super.onSupportNavigateUp()
+	}
+
+	override fun onFilesPick(files: List<FileModel>) {
+		presenter.onFilesPick(files)
 	}
 
 	override fun onStoragePermissionDenied() {
@@ -30,5 +45,11 @@ class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 		val module = EncryptModule(this)
 		component = applicationComponent.getEncryptComponent(module)
 		component.inject(this)
+	}
+
+	private fun setupToolbar() {
+		setSupportActionBar(toolbar)
+		supportActionBar?.setDisplayShowTitleEnabled(false)
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 	}
 }
