@@ -32,13 +32,7 @@
 			android:name=".presentation.screens.encrypt.EncryptActivity"
 			android:screenOrientation="sensorPortrait"
 			android:theme="@style/AppTheme.NoActionBar"
-			android:windowSoftInputMode="stateHidden" />
-
-		<activity
-			android:name=".presentation.screens.filespicker.FilesPickerActivity"
-			android:screenOrientation="sensorPortrait"
-			android:theme="@style/AppTheme.NoActionBar"
-			android:windowSoftInputMode="stateHidden" />
+			android:windowSoftInputMode="stateHidden|adjustResize" />
 	</application>
 
 </manifest>

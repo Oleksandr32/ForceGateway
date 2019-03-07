@@ -9,6 +9,7 @@ import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePi
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
 import javax.inject.Inject
 
 @FragmentScope
@@ -18,6 +19,7 @@ class FilesPickerPresenter @Inject constructor(
 		private val storageInteractor: StorageInteractor
 ) : FilesPickerListener {
 
+	private var files = emptyList<FileModel>()
 	private val disposables = CompositeDisposable()
 
 	init {
@@ -34,18 +36,38 @@ class FilesPickerPresenter @Inject constructor(
 
 	fun onStoragePermissionsGranted() {
 		storageInteractor.getFiles()
+				.doOnSuccess { files = it }
 				.uiThread()
 				.subscribeBy(
 						onSuccess = { files ->
 							if (files.isEmpty()) {
 								view.setFilesPickerState(EMPTY)
 							} else {
-								view.setFilesPickerState(FETCHED)
+								view.setFilesPickerState(PRESENT)
 								view.setFiles(files)
 							}
 						},
 						onError = Throwable::printStackTrace
 				)
+				.addTo(disposables)
+	}
+
+	fun search(query: String) {
+		if (files.isEmpty()) {
+			return
+		}
+
+		files.toObservable()
+				.filter { file -> file.name.contains(query, ignoreCase = true) }
+				.toList()
+				.subscribeBy { searchedFiles ->
+					if (searchedFiles.isEmpty()) {
+						view.setFilesPickerState(NOT_FOUND_RESULT)
+					} else {
+						view.setFiles(searchedFiles)
+						view.setFilesPickerState(PRESENT)
+					}
+				}
 				.addTo(disposables)
 	}
 

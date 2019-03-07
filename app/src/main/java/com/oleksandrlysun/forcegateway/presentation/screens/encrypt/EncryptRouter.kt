@@ -17,12 +17,11 @@ class EncryptRouter(private val activity: EncryptActivity) {
 	}
 
 	private fun navigateToFragment(fragment: Fragment, addToBackStack: Boolean = true) {
-		activity.supportFragmentManager.beginTransaction().run {
-			if (addToBackStack) {
-				addToBackStack(null)
-			}
-			replace(R.id.fragmentContainer, fragment)
-			commit()
+		val transaction = activity.supportFragmentManager.beginTransaction()
+		if (addToBackStack) {
+			transaction.addToBackStack(null)
 		}
+		transaction.replace(R.id.fragmentContainer, fragment)
+		transaction.commit()
 	}
 }
