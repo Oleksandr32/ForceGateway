@@ -1,10 +1,10 @@
 package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import java.io.File
 
 interface FilesPickerListener {
 
-	fun onFileClick(fileModel: FileModel)
+	fun onFileClick(fileModel: File)
 
-	fun onFileLongClick(fileModel: FileModel)
+	fun onFileLongClick(fileModel: File)
 }

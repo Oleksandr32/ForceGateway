@@ -4,9 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Environment
 import androidx.annotation.RequiresPermission
-import com.oleksandrlysun.forcegateway.data.mappers.FileMapper
 import com.oleksandrlysun.forcegateway.domain.boundaries.StorageService
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
 import io.reactivex.Single
 import java.io.File
 
@@ -28,11 +26,11 @@ class StorageServiceImpl : StorageService {
 	}
 
 	@RequiresPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-	override fun getFiles(path: String): Single<List<FileModel>> {
+	override fun getFiles(path: String): Single<List<File>> {
 		return Single.fromCallable {
 			val root = Environment.getExternalStorageDirectory()
 			val folder = File(root, path)
-			return@fromCallable getFiles(folder).map(FileMapper::toDomainModel)
+			return@fromCallable getFiles(folder)
 		}
 	}
 

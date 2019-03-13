@@ -7,14 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.oleksandrlysun.forcegateway.R
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
-import com.oleksandrlysun.forcegateway.domain.models.FileType
 import com.oleksandrlysun.forcegateway.extensions.bindView
+import java.io.File
 import javax.inject.Inject
 
 class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerListener) : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
 
-	private var items = emptyList<FileModel>()
+	private var items = emptyList<File>()
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
@@ -23,7 +22,7 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val item = items[position]
-		val imageIdRes = if (item.type == FileType.FILE) R.drawable.ic_file else R.drawable.ic_folder
+		val imageIdRes = if (item.isFile) R.drawable.ic_file else R.drawable.ic_folder
 		with(holder) {
 			fileImageView.setImageResource(imageIdRes)
 			fileNameTextView.text = item.name
@@ -41,7 +40,7 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 		return items.size
 	}
 
-	fun setItems(items: List<FileModel>) {
+	fun setItems(items: List<File>) {
 		this.items = items
 		notifyDataSetChanged()
 	}

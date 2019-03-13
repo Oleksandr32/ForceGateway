@@ -2,7 +2,6 @@ package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
 import com.oleksandrlysun.forcegateway.di.FragmentScope
 import com.oleksandrlysun.forcegateway.domain.interactors.StorageInteractor
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
 import com.oleksandrlysun.forcegateway.extensions.uiThread
 import com.oleksandrlysun.forcegateway.presentation.permissions.StoragePermissionsDelegate
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePickerState.*
@@ -10,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.rxkotlin.toObservable
+import java.io.File
 import javax.inject.Inject
 
 @FragmentScope
@@ -19,18 +19,18 @@ class FilesPickerPresenter @Inject constructor(
 		private val storageInteractor: StorageInteractor
 ) : FilesPickerListener {
 
-	private var files = emptyList<FileModel>()
+	private var files = emptyList<File>()
 	private val disposables = CompositeDisposable()
 
 	init {
 		checkPermissions()
 	}
 
-	override fun onFileClick(fileModel: FileModel) {
+	override fun onFileClick(fileModel: File) {
 		TODO()
 	}
 
-	override fun onFileLongClick(fileModel: FileModel) {
+	override fun onFileLongClick(fileModel: File) {
 		TODO()
 	}
 

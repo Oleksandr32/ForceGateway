@@ -1,10 +1,10 @@
 package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
+import java.io.File
 
 interface FilesPickerOutput {
 
-	fun onFilesPick(files: List<FileModel>)
+	fun onFilesPick(files: List<File>)
 
 	fun onStoragePermissionDenied()
 }

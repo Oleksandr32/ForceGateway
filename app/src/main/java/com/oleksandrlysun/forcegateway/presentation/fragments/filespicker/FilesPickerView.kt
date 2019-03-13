@@ -1,11 +1,10 @@
 package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
-import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilePickerState
+import java.io.File
 
 interface FilesPickerView {
 
-	fun setFiles(files: List<FileModel>)
+	fun setFiles(files: List<File>)
 
 	fun setFilesPickerState(state: FilePickerState)
 }
