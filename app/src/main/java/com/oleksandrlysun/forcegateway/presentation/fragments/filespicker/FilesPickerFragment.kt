@@ -3,6 +3,7 @@ package com.oleksandrlysun.forcegateway.presentation.fragments.filespicker
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
@@ -77,7 +78,7 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 		}
 	}
 
-	override fun setFiles(files: List<File>) {
+	override fun setFiles(files: List<SelectableFileItem>) {
 		adapter.setItems(files)
 	}
 

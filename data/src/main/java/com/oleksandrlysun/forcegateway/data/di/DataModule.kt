@@ -1,7 +1,9 @@
 package com.oleksandrlysun.forcegateway.data.di
 
 import android.content.Context
+import com.oleksandrlysun.forcegateway.data.crypto.CryptoServiceImpl
 import com.oleksandrlysun.forcegateway.data.storage.StorageServiceImpl
+import com.oleksandrlysun.forcegateway.domain.boundaries.CryptoService
 import com.oleksandrlysun.forcegateway.domain.boundaries.StorageService
 import dagger.Module
 import dagger.Provides
@@ -13,4 +15,8 @@ class DataModule(private val context: Context) {
 	@Provides
 	@Singleton
 	fun provideStorageService(): StorageService = StorageServiceImpl()
+
+	@Provides
+	@Singleton
+	fun provideCryptoService(): CryptoService = CryptoServiceImpl()
 }

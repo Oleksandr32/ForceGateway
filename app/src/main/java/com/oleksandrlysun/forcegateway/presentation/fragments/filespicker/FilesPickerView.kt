@@ -4,7 +4,7 @@ import java.io.File
 
 interface FilesPickerView {
 
-	fun setFiles(files: List<File>)
+	fun setFiles(files: List<SelectableFileItem>)
 
 	fun setFilesPickerState(state: FilePickerState)
 
