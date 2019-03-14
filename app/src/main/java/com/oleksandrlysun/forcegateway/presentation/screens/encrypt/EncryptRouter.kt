@@ -12,6 +12,10 @@ class EncryptRouter(private val activity: EncryptActivity) {
 		navigateToFragment(fragment, false)
 	}
 
+	fun navigateToEncryptSettings() {
+		navigateToFragment(EncryptSettingsFragment())
+	}
+
 	fun finish() {
 		activity.finish()
 	}

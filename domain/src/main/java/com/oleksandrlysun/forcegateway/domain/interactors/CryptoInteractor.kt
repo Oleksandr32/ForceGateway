@@ -2,8 +2,13 @@ package com.oleksandrlysun.forcegateway.domain.interactors
 
 import com.oleksandrlysun.forcegateway.domain.boundaries.CryptoService
 import com.oleksandrlysun.forcegateway.domain.boundaries.StorageService
+import com.oleksandrlysun.forcegateway.domain.models.CryptoAlgorithm
+import com.oleksandrlysun.forcegateway.domain.models.CryptoAlgorithmSettings
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.security.Key
 import javax.inject.Inject
 
 class CryptoInteractor @Inject constructor(
@@ -11,9 +16,10 @@ class CryptoInteractor @Inject constructor(
 		private val cryptoService: CryptoService
 ) {
 
-	companion object {
-
-		private const val SECRET_PATH = "Secret"
+	fun generateKey(algorithm: CryptoAlgorithm, keySize: Int, seed: String): Single<Key> {
+		val settings = CryptoAlgorithmSettings(algorithm, seed, keySize)
+		return cryptoService.generateKey(settings)
+				.subscribeOn(Schedulers.io())
 	}
 
 	fun encryptFiles(files: List<File>): Completable {

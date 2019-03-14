@@ -10,6 +10,7 @@ import com.oleksandrlysun.forcegateway.extensions.bindView
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerOutput
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptModule
+import java.io.File
 import javax.inject.Inject
 
 class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
@@ -33,7 +34,7 @@ class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 		return super.onSupportNavigateUp()
 	}
 
-	override fun onFilesPick(files: List<FileModel>) {
+	override fun onFilesPick(files: List<File>) {
 		presenter.onFilesPick(files)
 	}
 
