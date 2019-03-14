@@ -5,6 +5,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.ViewFlipper
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -35,6 +36,7 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 
 	private val pickerRecyclerView by bindView<RecyclerView>(R.id.recycler_view_files_picker)
 	private val statesViewFlipper by bindView<ViewFlipper>(R.id.view_flipper_states)
+	private val continueButton by bindView<FrameLayout>(R.id.btn_continue)
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		injectDependencies()
@@ -44,14 +46,14 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		setupRecyclerView()
+		setupViews()
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
 		super.onCreateOptionsMenu(menu, inflater)
 		inflater?.inflate(R.menu.searchable_action, menu)
-		val searchView = menu?.findItem(R.id.action_search)?.actionView as? SearchView
 
+		val searchView = menu?.findItem(R.id.action_search)?.actionView as? SearchView
 		searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 			override fun onQueryTextSubmit(query: String): Boolean {
 				return false
@@ -83,6 +85,10 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 		statesViewFlipper?.displayedChild = state.ordinal
 	}
 
+	override fun setResult(files: List<File>) {
+		output?.onFilesPick(files)
+	}
+
 	override fun hasStoragePermissions(): Boolean {
 		return STORAGE_PERMISSIONS.all { permission ->
 			ContextCompat.checkSelfPermission(requireContext(), permission) == PERMISSION_GRANTED
@@ -103,10 +109,14 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 		component.inject(this)
 	}
 
-	private fun setupRecyclerView() {
+	private fun setupViews() {
 		pickerRecyclerView?.layoutManager = layoutManager
 		pickerRecyclerView?.adapter = adapter
 		pickerRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+		continueButton?.setOnClickListener {
+			presenter.onContinueClick()
+		}
 	}
 
 	companion object {
