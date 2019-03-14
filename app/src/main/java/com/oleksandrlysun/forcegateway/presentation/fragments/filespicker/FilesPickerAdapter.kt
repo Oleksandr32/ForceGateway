@@ -8,12 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.oleksandrlysun.forcegateway.R
 import com.oleksandrlysun.forcegateway.extensions.bindView
-import java.io.File
 import javax.inject.Inject
 
 class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerListener) : RecyclerView.Adapter<FilesPickerAdapter.ViewHolder>() {
 
-	private var items = emptyList<File>()
+	private var items = emptyList<SelectableFileItem>()
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 		val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false)
@@ -22,16 +21,14 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val item = items[position]
-		val imageIdRes = if (item.isFile) R.drawable.ic_file else R.drawable.ic_folder
+		val imageIdRes = if (item.file.isFile) R.drawable.ic_file else R.drawable.ic_folder
+		val backgroundIdRes = if (item.isSelected) R.color.colorAccent else R.color.colorBackground
 		with(holder) {
+			itemView.setBackgroundResource(backgroundIdRes)
 			fileImageView.setImageResource(imageIdRes)
-			fileNameTextView.text = item.name
+			fileNameTextView.text = item.file.name
 			itemView.setOnClickListener {
-				listener.onFileClick(item)
-			}
-			itemView.setOnLongClickListener {
-				listener.onFileLongClick(item)
-				return@setOnLongClickListener true
+				listener.onFileItemClick(item)
 			}
 		}
 	}
@@ -40,7 +37,7 @@ class FilesPickerAdapter @Inject constructor(private val listener: FilesPickerLi
 		return items.size
 	}
 
-	fun setItems(items: List<File>) {
+	fun setItems(items: List<SelectableFileItem>) {
 		this.items = items
 		notifyDataSetChanged()
 	}

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
-import com.oleksandrlysun.forcegateway.domain.models.FileModel
 import com.oleksandrlysun.forcegateway.extensions.bindView
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerOutput
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
@@ -50,7 +49,6 @@ class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 
 	private fun setupToolbar() {
 		setSupportActionBar(toolbar)
-		supportActionBar?.setDisplayShowTitleEnabled(false)
 		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 	}
 }

@@ -43,6 +43,17 @@
 
 	<style name="AppTheme.Widget.Toolbar" parent="AppTheme.Inverted">
 		<item name="android:background">?colorPrimary</item>
+		<item name="colorControlNormal">@color/colorIcons</item>
+		<item name="searchViewStyle">@style/AppTheme.Widget.Toolbar.SearchView</item>
+	</style>
+
+	<style name="AppTheme.Widget.Toolbar.SearchView" parent="Widget.AppCompat.SearchView.ActionBar">
+		<item name="submitBackground">?colorPrimary</item>
+		<item name="queryBackground">?colorPrimary</item>
+	</style>
+
+	<style name="AppTheme.Widget.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
+
 	</style>
 
 	<!-- Text Appearance -->

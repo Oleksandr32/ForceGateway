@@ -9,7 +9,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.rxkotlin.toObservable
-import java.io.File
 import javax.inject.Inject
 
 @FragmentScope
@@ -19,24 +18,23 @@ class FilesPickerPresenter @Inject constructor(
 		private val storageInteractor: StorageInteractor
 ) : FilesPickerListener {
 
-	private var files = emptyList<File>()
+	private var fileItems = emptyList<SelectableFileItem>()
 	private val disposables = CompositeDisposable()
 
 	init {
 		checkPermissions()
 	}
 
-	override fun onFileClick(fileModel: File) {
-		TODO()
-	}
-
-	override fun onFileLongClick(fileModel: File) {
-		TODO()
+	override fun onFileItemClick(fileItem: SelectableFileItem) {
+		val newFileItem = SelectableFileItem(fileItem.file, !fileItem.isSelected)
+		fileItems.replace(fileItem, newFileItem)
+		view.setFiles(fileItems)
 	}
 
 	fun onStoragePermissionsGranted() {
 		storageInteractor.getFiles()
-				.doOnSuccess { files = it }
+				.map { SelectableFileItemFactory.create(it, false) }
+				.doOnSuccess { fileItems = it }
 				.uiThread()
 				.subscribeBy(
 						onSuccess = { files ->
@@ -53,12 +51,12 @@ class FilesPickerPresenter @Inject constructor(
 	}
 
 	fun search(query: String) {
-		if (files.isEmpty()) {
+		if (fileItems.isEmpty()) {
 			return
 		}
 
-		files.toObservable()
-				.filter { file -> file.name.contains(query, ignoreCase = true) }
+		fileItems.toObservable()
+				.filter { it.file.name.contains(query, ignoreCase = true) }
 				.toList()
 				.subscribeBy { searchedFiles ->
 					if (searchedFiles.isEmpty()) {
@@ -72,7 +70,12 @@ class FilesPickerPresenter @Inject constructor(
 	}
 
 	fun onContinueClick() {
-		view.setResult(files)
+		val result = fileItems.asSequence()
+				.filter { it.isSelected }
+				.map(SelectableFileItem::file)
+				.toList()
+
+		view.setResult(result)
 	}
 
 	private fun checkPermissions() {
@@ -82,5 +85,9 @@ class FilesPickerPresenter @Inject constructor(
 		} else {
 			onStoragePermissionsGranted()
 		}
+	}
+
+	private fun <T> Iterable<T>.replace(old: T, new: T): Iterable<T> {
+		return map { if (it == old) new else it }
 	}
 }
