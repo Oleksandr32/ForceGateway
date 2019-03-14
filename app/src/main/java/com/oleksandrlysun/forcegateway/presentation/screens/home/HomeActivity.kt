@@ -17,13 +17,13 @@ import javax.inject.Inject
 class HomeActivity : AppCompatActivity() {
 
 	@Inject
-	lateinit var mPagerAdapter: HomeTabsFragmentPagerAdapter
+	lateinit var adapter: HomeTabsFragmentPagerAdapter
 
 	internal lateinit var component: HomeComponent
 
-	private val mToolbar by bindView<Toolbar>(R.id.toolbar)
-	private val mTabLayout by bindView<TabLayout>(R.id.tab_layout)
-	private val mTabsViewPager by bindView<ViewPager>(R.id.tabs_view_pager)
+	private val toolbar by bindView<Toolbar>(R.id.toolbar)
+	private val tabLayout by bindView<TabLayout>(R.id.tab_layout)
+	private val tabsViewPager by bindView<ViewPager>(R.id.tabs_view_pager)
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -33,16 +33,14 @@ class HomeActivity : AppCompatActivity() {
 	}
 
 	private fun setupWidgets() {
-		setSupportActionBar(mToolbar)
+		setSupportActionBar(toolbar)
 		supportActionBar?.setDisplayShowTitleEnabled(false)
-		mTabsViewPager.run {
-			adapter = mPagerAdapter
-			setOnPageChangeListener { position ->
-				mTabLayout.getTabAt(position)?.select()
-			}
+		tabsViewPager.adapter = adapter
+		tabsViewPager.setOnPageChangeListener { position ->
+			tabLayout.getTabAt(position)?.select()
 		}
-		mTabLayout.setOnTabSelectedListener { tab ->
-			mTabsViewPager.currentItem = tab.position
+		tabLayout.setOnTabSelectedListener { tab ->
+			tabsViewPager.currentItem = tab.position
 		}
 	}
 

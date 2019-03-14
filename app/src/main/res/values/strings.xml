@@ -6,4 +6,7 @@
 	<string name="empty_folder_description">First add the necessary files to this folder.</string>
 	<string name="action_search">Search</string>
 	<string name="not_found_result">Not Found Result</string>
+	<string name="btn_continue">Continue</string>
+    <string name="btn_generate_key">Generate Key</string>
+	<string name="hint_enter_seed">Enter Seed</string>
 </resources>

@@ -71,6 +71,10 @@ class FilesPickerPresenter @Inject constructor(
 				.addTo(disposables)
 	}
 
+	fun onContinueClick() {
+		view.setResult(files)
+	}
+
 	private fun checkPermissions() {
 		val hasPermissions = storagePermissionsDelegate.hasStoragePermissions()
 		if (!hasPermissions) {
