@@ -37,7 +37,6 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 
 	private val pickerRecyclerView by bindView<RecyclerView>(R.id.recycler_view_files_picker)
 	private val statesViewFlipper by bindView<ViewFlipper>(R.id.view_flipper_states)
-	private val continueButton by bindView<FrameLayout>(R.id.btn_continue)
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		injectDependencies()
@@ -114,10 +113,6 @@ class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDeleg
 		pickerRecyclerView?.layoutManager = layoutManager
 		pickerRecyclerView?.adapter = adapter
 		pickerRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-
-		continueButton?.setOnClickListener {
-			presenter.onContinueClick()
-		}
 	}
 
 	companion object {

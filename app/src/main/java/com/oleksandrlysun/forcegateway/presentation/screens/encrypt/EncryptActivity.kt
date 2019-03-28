@@ -3,8 +3,10 @@ package com.oleksandrlysun.forcegateway.presentation.screens.encrypt
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import com.oleksandrlysun.forcegateway.ForceGatewayApplication.Companion.applicationComponent
 import com.oleksandrlysun.forcegateway.R
+import com.oleksandrlysun.forcegateway.databinding.ActivityEncryptBinding
 import com.oleksandrlysun.forcegateway.extensions.bindView
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.FilesPickerOutput
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
@@ -15,7 +17,7 @@ import javax.inject.Inject
 class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 
 	@Inject
-	lateinit var presenter: EncryptPresenter
+	lateinit var viewModel: EncryptViewModel
 
 	internal lateinit var component: EncryptComponent
 
@@ -24,21 +26,27 @@ class EncryptActivity : AppCompatActivity(), EncryptView, FilesPickerOutput {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		injectDependencies()
-		setContentView(R.layout.activity_encrypt)
+		val binding = DataBindingUtil.setContentView<ActivityEncryptBinding>(this, R.layout.activity_encrypt)
+		binding.viewModel = viewModel
 		setupToolbar()
 	}
 
 	override fun onSupportNavigateUp(): Boolean {
-		finish()
-		return super.onSupportNavigateUp()
+		onBackPressed()
+		return true
+	}
+
+	override fun onBackPressed() {
+		viewModel.goToPreviousStep()
+		super.onBackPressed()
 	}
 
 	override fun onFilesPick(files: List<File>) {
-		presenter.onFilesPick(files)
+		viewModel.onFilesPick(files)
 	}
 
 	override fun onStoragePermissionDenied() {
-		presenter.onStoragePermissionsDenied()
+		viewModel.onStoragePermissionsDenied()
 	}
 
 	private fun injectDependencies() {

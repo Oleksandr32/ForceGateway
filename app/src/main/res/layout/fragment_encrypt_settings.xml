@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+
+		<variable
+			name="viewModel"
+			type="com.oleksandrlysun.forcegateway.presentation.screens.encrypt.EncryptViewModel" />
+	</data>
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
+		android:layout_height="match_parent"
 		android:clipToPadding="false"
 		android:orientation="vertical"
 		android:padding="24dp">
@@ -17,7 +21,8 @@
 			style="@style/AppTheme.Widget.TabLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="24dp" />
+			android:layout_marginBottom="24dp"
+			app:tabGravity="fill" />
 
 		<androidx.appcompat.widget.AppCompatSeekBar
 			android:id="@+id/seek_bar_key_size"
@@ -45,22 +50,4 @@
 			</com.google.android.material.textfield.TextInputLayout>
 		</androidx.cardview.widget.CardView>
 	</LinearLayout>
-
-	<FrameLayout
-		android:id="@+id/btn_generate_key"
-		android:layout_width="match_parent"
-		android:layout_height="56dp"
-		android:background="?colorPrimary"
-		android:clickable="true"
-		android:focusable="true"
-		android:foreground="?selectableItemBackground">
-
-		<TextView
-			style="@style/AppTheme.Inverted"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="@string/btn_generate_key"
-			android:textAppearance="?textAppearanceBody2" />
-	</FrameLayout>
-</LinearLayout>
+</layout>

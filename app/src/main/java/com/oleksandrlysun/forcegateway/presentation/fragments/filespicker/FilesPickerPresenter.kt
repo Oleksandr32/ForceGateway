@@ -27,8 +27,9 @@ class FilesPickerPresenter @Inject constructor(
 
 	override fun onFileItemClick(fileItem: SelectableFileItem) {
 		val newFileItem = SelectableFileItem(fileItem.file, !fileItem.isSelected)
-		fileItems.replace(fileItem, newFileItem)
+		fileItems = fileItems.replace(fileItem, newFileItem)
 		view.setFiles(fileItems)
+		setResult()
 	}
 
 	fun onStoragePermissionsGranted() {
@@ -69,12 +70,11 @@ class FilesPickerPresenter @Inject constructor(
 				.addTo(disposables)
 	}
 
-	fun onContinueClick() {
+	private fun setResult() {
 		val result = fileItems.asSequence()
 				.filter { it.isSelected }
 				.map(SelectableFileItem::file)
 				.toList()
-
 		view.setResult(result)
 	}
 
@@ -87,7 +87,7 @@ class FilesPickerPresenter @Inject constructor(
 		}
 	}
 
-	private fun <T> Iterable<T>.replace(old: T, new: T): Iterable<T> {
+	private fun <T> List<T>.replace(old: T, new: T): List<T> {
 		return map { if (it == old) new else it }
 	}
 }
