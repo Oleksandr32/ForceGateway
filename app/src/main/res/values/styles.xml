@@ -52,8 +52,23 @@
 		<item name="queryBackground">?colorPrimary</item>
 	</style>
 
-	<style name="AppTheme.Widget.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
+	<style name="AppTheme.Widget.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+		<item name="android:background">@drawable/background_container_round</item>
+		<item name="tabMode">fixed</item>
+		<item name="tabIndicator">@drawable/background_tab_round</item>
+		<item name="tabIndicatorHeight">@dimen/tab_height</item>
+		<item name="tabUnboundedRipple">true</item>
+		<item name="tabTextAppearance">?textAppearanceBody1</item>
+		<item name="tabTextColor">?android:textColorSecondary</item>
+		<item name="tabSelectedTextColor">?android:textColorPrimaryInverse</item>
+	</style>
 
+	<style name="AppTheme.Widget.SeekBar" parent="@style/Widget.AppCompat.SeekBar">
+		<item name="android:progressDrawable">@drawable/background_progress</item>
+		<item name="android:progressTint">#0097a7</item>
+		<item name="android:thumbTint">?colorAccent</item>
+		<item name="android:thumb">@drawable/background_progress_thumb</item>
+		<item name="android:max">@integer/max_key_progress</item>
 	</style>
 
 	<!-- Text Appearance -->

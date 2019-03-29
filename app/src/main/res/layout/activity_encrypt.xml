@@ -45,8 +45,8 @@
 				style="@style/AppTheme.Inverted"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:alpha="@{viewModel.bottomButtonEnabled ? 1f : 0.5f}"
 				android:layout_gravity="center"
+				android:alpha="@{viewModel.bottomButtonEnabled ? 1f : 0.5f}"
 				android:text="@{viewModel.bottomButtonResId}"
 				android:textAppearance="?textAppearanceBody2" />
 		</FrameLayout>

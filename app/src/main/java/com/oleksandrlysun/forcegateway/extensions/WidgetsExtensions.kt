@@ -8,9 +8,9 @@ import com.google.android.material.tabs.TabLayout
 import com.oleksandrlysun.forcegateway.utils.lazyUnsynchronized
 
 fun TabLayout.setOnTabSelectedListener(
+		onTabSelected: (TabLayout.Tab) -> Unit = {},
 		onTabReselected: (TabLayout.Tab) -> Unit = {},
-		onTabUnselected: (TabLayout.Tab) -> Unit = {},
-		onTabSelected: (TabLayout.Tab) -> Unit = {}
+		onTabUnselected: (TabLayout.Tab) -> Unit = {}
 ): TabLayout.OnTabSelectedListener {
 	val listener = object : TabLayout.OnTabSelectedListener {
 		override fun onTabReselected(tab: TabLayout.Tab) {
@@ -30,9 +30,9 @@ fun TabLayout.setOnTabSelectedListener(
 }
 
 fun ViewPager.setOnPageChangeListener(
+		onPageSelected: (Int) -> Unit = {},
 		onPageScrollStateChanged: (Int) -> Unit = {},
-		onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
-		onPageSelected: (Int) -> Unit = {}
+		onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> }
 ): ViewPager.OnPageChangeListener {
 	val listener = object : ViewPager.OnPageChangeListener {
 		override fun onPageScrollStateChanged(state: Int) {

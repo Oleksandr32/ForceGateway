@@ -12,4 +12,5 @@
 	<color name="colorPrimaryTextInverse">#FFFFFF</color>
 	<color name="colorSecondaryText">#757575</color>
 	<color name="colorDivider">#BDBDBD</color>
+	<color name="colorTabBackground">#f5f5f5</color>
 </resources>

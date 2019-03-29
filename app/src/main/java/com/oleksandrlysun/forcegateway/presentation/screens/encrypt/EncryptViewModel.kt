@@ -16,6 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
+import java.security.Key
 import javax.inject.Inject
 
 @ActivityScope
@@ -31,6 +32,15 @@ class EncryptViewModel @Inject constructor(
 	@get:Bindable
 	var pickedFiles by ObservableField(fieldId = BR.pickedFiles, value = emptyList<File>())
 
+	@get:Bindable
+	var algorithm by ObservableField(fieldId = BR.algorithm, value = CryptoAlgorithm.AES)
+
+	@get:Bindable
+	var keySize by ObservableField(fieldId = BR.keySize, value = 64)
+
+	@get:Bindable
+	var seed by ObservableField(fieldId = BR.seed, value = "")
+
 	@Bindable("currentStep")
 	fun getBottomButtonResId(): Int {
 		return when (currentStep) {
@@ -42,13 +52,12 @@ class EncryptViewModel @Inject constructor(
 	@Bindable("currentStep", "pickedFiles")
 	fun isBottomButtonEnabled(): Boolean {
 		return when (currentStep) {
-			PICK_FILES -> pickedFiles.isNotEmpty()
-			SETTINGS -> false
+			PICK_FILES, SETTINGS -> pickedFiles.isNotEmpty()
 		}
 	}
 
-	private var algorithm = CryptoAlgorithm.AES
 	private val disposables = CompositeDisposable()
+	private var key: Key? = null
 
 	init {
 		router.navigateToFilesPicker()
@@ -65,7 +74,7 @@ class EncryptViewModel @Inject constructor(
 	fun goToNextStep() {
 		when (currentStep) {
 			PICK_FILES -> router.navigateToEncryptSettings()
-			SETTINGS -> TODO()
+			SETTINGS -> generateKey(keySize, seed)
 		}
 		currentStep = currentStep.next() ?: SETTINGS
 	}
@@ -74,16 +83,12 @@ class EncryptViewModel @Inject constructor(
 		currentStep = currentStep.prev() ?: PICK_FILES
 	}
 
-	fun onAlgorithmTabSelect(name: String) {
-		algorithm = CryptoAlgorithm.valueOf(name)
-	}
-
-	fun generateKey(keySize: Int, seed: String) {
+	private fun generateKey(keySize: Int, seed: String) {
 		cryptoInteractor.generateKey(algorithm, keySize, seed)
 				.uiThread()
 				.subscribeBy(
 						onSuccess = {
-
+							key = it
 						},
 						onError = Throwable::printStackTrace
 				)
