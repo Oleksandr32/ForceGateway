@@ -36,9 +36,9 @@ class HomeActivity : AppCompatActivity() {
 		setSupportActionBar(toolbar)
 		supportActionBar?.setDisplayShowTitleEnabled(false)
 		tabsViewPager.adapter = adapter
-		tabsViewPager.setOnPageChangeListener { position ->
+		tabsViewPager.setOnPageChangeListener(onPageSelected = { position ->
 			tabLayout.getTabAt(position)?.select()
-		}
+		})
 		tabLayout.setOnTabSelectedListener { tab ->
 			tabsViewPager.currentItem = tab.position
 		}
