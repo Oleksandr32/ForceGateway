@@ -32,7 +32,7 @@ object TabLayoutBindingAdapters {
 	}
 
 	@JvmStatic
-	@BindingAdapter("app:selectedTabPositionAttrChanged")
+	@BindingAdapter("selectedTabPositionAttrChanged")
 	fun setListeners(tabLayout: TabLayout, attrChange: InverseBindingListener) {
 		tabLayout.setOnTabSelectedListener { attrChange.onChange() }
 	}

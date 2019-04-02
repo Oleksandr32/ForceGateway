@@ -29,7 +29,6 @@
 			app:selectedTabPosition="@={Converter.convertCryptoAlgorithmToPosition(viewModel.algorithm)}"
 			app:titles="@{CryptoAlgorithm.values()}" />
 
-
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -49,6 +48,7 @@
 				style="@style/AppTheme.Widget.SeekBar"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:onStopTrackingTouch="@{_ -> viewModel.onKeySizeChanged()}"
 				android:progress="@={viewModel.keySize}" />
 		</LinearLayout>
 
