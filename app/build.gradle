@@ -43,6 +43,7 @@ dependencies {
     implementation libs.support
     implementation libs.lifecycle
     implementation libs.material
+    implementation libs.constraintLayout
 
     // Dagger
     implementation libs.dagger
