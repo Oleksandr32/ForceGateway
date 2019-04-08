@@ -14,8 +14,7 @@ class CryptoServiceImpl : CryptoService {
 
 	override fun generateKey(algorithmSettings: CryptoAlgorithmSettings): Single<Key> {
 		return Single.fromCallable {
-			val algorithm = algorithmSettings.algorithm
-			val cipher = FileCipher(algorithm.name)
+			val cipher = CryptoCipherFactory.create(algorithmSettings.algorithm)
 			val seed = algorithmSettings.seed
 			val keySize = algorithmSettings.keySize
 
@@ -25,14 +24,14 @@ class CryptoServiceImpl : CryptoService {
 
 	override fun encryptFile(file: File, algorithm: CryptoAlgorithm, secretKey: Key): Completable {
 		return Completable.fromCallable {
-			val cipher = FileCipher(algorithm.name)
+			val cipher = CryptoCipherFactory.create(algorithm)
 			return@fromCallable cipher.encrypt(file, secretKey)
 		}
 	}
 
 	override fun decryptFile(file: File, algorithm: CryptoAlgorithm, secretKey: Key): Completable {
 		return Completable.fromCallable {
-			val cipher = FileCipher(algorithm.name)
+			val cipher = CryptoCipherFactory.create(algorithm)
 			return@fromCallable cipher.decrypt(file, secretKey)
 		}
 	}
