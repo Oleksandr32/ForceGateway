@@ -4,7 +4,7 @@
 
 	<corners android:radius="270dp" />
 	<size
-		android:width="@dimen/progress_height"
+		android:width="@dimen/progress_width"
 		android:height="@dimen/progress_height" />
 	<solid android:color="?colorAccent" />
 </shape>

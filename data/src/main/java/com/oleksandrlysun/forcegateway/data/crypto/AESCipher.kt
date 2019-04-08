@@ -10,9 +10,11 @@ import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 import javax.crypto.KeyGenerator
 
-class FileCipher(private val algorithm: String = "AES") {
+class AESCipher : CryptoCipher() {
 
-	fun generateKey(seed: String, keySize: Int): Key {
+	override val algorithm = "AES"
+
+	override fun generateKey(seed: String, keySize: Int): Key {
 		val secureRandom = SecureRandom(seed.toByteArray())
 		val keyGenerator = KeyGenerator.getInstance(algorithm)
 		keyGenerator.init(keySize, secureRandom)
@@ -21,7 +23,7 @@ class FileCipher(private val algorithm: String = "AES") {
 	}
 
 	@RequiresPermission(allOf = [READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE])
-	fun encrypt(file: File, secretKey: Key) {
+	override fun encrypt(file: File, secretKey: Key) {
 		val fileInput = file.inputStream()
 		val fileOutput = file.outputStream()
 
@@ -32,7 +34,7 @@ class FileCipher(private val algorithm: String = "AES") {
 	}
 
 	@RequiresPermission(allOf = [READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE])
-	fun decrypt(file: File, secretKey: Key) {
+	override fun decrypt(file: File, secretKey: Key) {
 		val fileInput = file.inputStream()
 		val fileOutput = file.outputStream()
 

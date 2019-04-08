@@ -24,100 +24,113 @@ import javax.inject.Inject
 
 class FilesPickerFragment : Fragment(), FilesPickerView, StoragePermissionsDelegate {
 
-	@Inject
-	lateinit var presenter: FilesPickerPresenter
+    @Inject
+    lateinit var presenter: FilesPickerPresenter
 
-	@Inject
-	lateinit var adapter: FilesPickerAdapter
+    @Inject
+    lateinit var adapter: FilesPickerAdapter
 
-	@Inject
-	lateinit var layoutManager: LayoutManager
+    @Inject
+    lateinit var layoutManager: LayoutManager
 
-	private var output: FilesPickerOutput? = null
+    private var output: FilesPickerOutput? = null
 
-	private val pickerRecyclerView by bindView<RecyclerView>(R.id.recycler_view_files_picker)
-	private val statesViewFlipper by bindView<ViewFlipper>(R.id.view_flipper_states)
+    private val pickerRecyclerView by bindView<RecyclerView>(R.id.recycler_view_files_picker)
+    private val statesViewFlipper by bindView<ViewFlipper>(R.id.view_flipper_states)
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		injectDependencies()
-		setHasOptionsMenu(true)
-		return inflater.inflate(R.layout.fragment_files_picker, container, false)
-	}
+    // we should keep the view instance when replacing the fragment
+    // TODO: find better solution
+    private var savedViewState: View? = null
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		setupViews()
-	}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // If view has already been created, use this view
+        if (savedViewState != null) {
+            return savedViewState
+        }
 
-	override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-		super.onCreateOptionsMenu(menu, inflater)
-		inflater?.inflate(R.menu.searchable_action, menu)
+        injectDependencies()
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_files_picker, container, false)
+    }
 
-		val searchView = menu?.findItem(R.id.action_search)?.actionView as? SearchView
-		searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-			override fun onQueryTextSubmit(query: String): Boolean {
-				return false
-			}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Do, if view was created for the first time
+        if (savedViewState == null) {
+            savedViewState = view
+            setupViews()
+        }
+    }
 
-			override fun onQueryTextChange(newText: String): Boolean {
-				presenter.search(newText)
-				return false
-			}
-		})
-	}
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.searchable_action, menu)
 
-	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-		if (requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
-			if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
-				presenter.onStoragePermissionsGranted()
-			} else {
-				output?.onStoragePermissionDenied()
-			}
-		}
-	}
+        val searchView = menu?.findItem(R.id.action_search)?.actionView as? SearchView
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
 
-	override fun setFiles(files: List<SelectableFileItem>) {
-		adapter.setItems(files)
-	}
+            override fun onQueryTextChange(newText: String): Boolean {
+                presenter.search(newText)
+                return false
+            }
+        })
+    }
 
-	override fun setFilesPickerState(state: FilePickerState) {
-		statesViewFlipper?.displayedChild = state.ordinal
-	}
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
+                presenter.onStoragePermissionsGranted()
+            } else {
+                output?.onStoragePermissionDenied()
+            }
+        }
+    }
 
-	override fun setResult(files: List<File>) {
-		output?.onFilesPick(files)
-	}
+    override fun setFiles(files: List<SelectableFileItem>) {
+        adapter.setItems(files)
+    }
 
-	override fun hasStoragePermissions(): Boolean {
-		return STORAGE_PERMISSIONS.all { permission ->
-			ContextCompat.checkSelfPermission(requireContext(), permission) == PERMISSION_GRANTED
-		}
-	}
+    override fun setFilesPickerState(state: FilePickerState) {
+        statesViewFlipper?.displayedChild = state.ordinal
+    }
 
-	override fun requestStoragePermissions() {
-		requestPermissions(STORAGE_PERMISSIONS, STORAGE_PERMISSION_REQUEST_CODE)
-	}
+    override fun setResult(files: List<File>) {
+        output?.onFilesPick(files)
+    }
 
-	fun setOutput(output: FilesPickerOutput) {
-		this.output = output
-	}
+    override fun hasStoragePermissions(): Boolean {
+        return STORAGE_PERMISSIONS.all { permission ->
+            ContextCompat.checkSelfPermission(requireContext(), permission) == PERMISSION_GRANTED
+        }
+    }
 
-	private fun injectDependencies() {
-		val module = FilesPickerModule(this)
-		val component = applicationComponent.getFilesPickerComponent(module)
-		component.inject(this)
-	}
+    override fun requestStoragePermissions() {
+        requestPermissions(STORAGE_PERMISSIONS, STORAGE_PERMISSION_REQUEST_CODE)
+    }
 
-	private fun setupViews() {
-		pickerRecyclerView?.layoutManager = layoutManager
-		pickerRecyclerView?.adapter = adapter
-		pickerRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-	}
+    fun setOutput(output: FilesPickerOutput) {
+        this.output = output
+    }
 
-	companion object {
+    private fun injectDependencies() {
+        val module = FilesPickerModule(this)
+        val component = applicationComponent.getFilesPickerComponent(module)
+        component.inject(this)
+    }
 
-		private const val STORAGE_PERMISSION_REQUEST_CODE = 0
-		private val STORAGE_PERMISSIONS = arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
-	}
+    private fun setupViews() {
+        pickerRecyclerView?.layoutManager = layoutManager
+        pickerRecyclerView?.adapter = adapter
+        pickerRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+    }
+
+    companion object {
+
+        private const val STORAGE_PERMISSION_REQUEST_CODE = 0
+        private val STORAGE_PERMISSIONS = arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+    }
 }

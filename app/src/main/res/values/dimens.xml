@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<dimen name="tab_height">52dp</dimen>
+	<dimen name="progress_width">24dp</dimen>
 	<dimen name="progress_height">24dp</dimen>
 </resources>

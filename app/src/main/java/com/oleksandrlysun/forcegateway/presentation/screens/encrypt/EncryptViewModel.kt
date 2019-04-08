@@ -18,6 +18,9 @@ import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
 import java.security.Key
 import javax.inject.Inject
+import kotlin.math.log2
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 @ActivityScope
 class EncryptViewModel @Inject constructor(
@@ -25,6 +28,12 @@ class EncryptViewModel @Inject constructor(
 		private val router: EncryptRouter,
 		private val cryptoInteractor: CryptoInteractor
 ) : BaseObservable() {
+
+	companion object {
+
+		private const val DEFAULT_KEY_SIZE = 64
+		private const val DISCRETE_KEY_SIZE = 2.0
+	}
 
 	@get:Bindable
 	var currentStep by ObservableField(fieldId = BR.currentStep, value = PICK_FILES)
@@ -36,7 +45,7 @@ class EncryptViewModel @Inject constructor(
 	var algorithm by ObservableField(fieldId = BR.algorithm, value = CryptoAlgorithm.AES)
 
 	@get:Bindable
-	var keySize by ObservableField(fieldId = BR.keySize, value = 64)
+	var keySize by ObservableField(fieldId = BR.keySize, value = DEFAULT_KEY_SIZE)
 
 	@get:Bindable
 	var seed by ObservableField(fieldId = BR.seed, value = "")
@@ -56,11 +65,28 @@ class EncryptViewModel @Inject constructor(
 		}
 	}
 
+	@Bindable
+	fun getAlgorithmsNames(): List<String> {
+		return CryptoAlgorithm.values().map(CryptoAlgorithm::name)
+	}
+
 	private val disposables = CompositeDisposable()
 	private var key: Key? = null
 
 	init {
 		router.navigateToFilesPicker()
+	}
+
+	fun goToNextStep() {
+		when (currentStep) {
+			PICK_FILES -> router.navigateToEncryptSettings()
+			SETTINGS -> generateKey()
+		}
+		currentStep = currentStep.next() ?: SETTINGS
+	}
+
+	fun goToPreviousStep() {
+		currentStep = currentStep.prev() ?: PICK_FILES
 	}
 
 	fun onStoragePermissionsDenied() {
@@ -71,19 +97,13 @@ class EncryptViewModel @Inject constructor(
 		pickedFiles = files
 	}
 
-	fun goToNextStep() {
-		when (currentStep) {
-			PICK_FILES -> router.navigateToEncryptSettings()
-			SETTINGS -> generateKey(keySize, seed)
-		}
-		currentStep = currentStep.next() ?: SETTINGS
+	fun onKeySizeChanged() {
+		val coerceKeySize = keySize.coerceAtLeast(DEFAULT_KEY_SIZE).toDouble()
+		val discrete = log2(coerceKeySize).roundToInt()
+		keySize = DISCRETE_KEY_SIZE.pow(discrete.toDouble()).toInt()
 	}
 
-	fun goToPreviousStep() {
-		currentStep = currentStep.prev() ?: PICK_FILES
-	}
-
-	private fun generateKey(keySize: Int, seed: String) {
+	private fun generateKey() {
 		cryptoInteractor.generateKey(algorithm, keySize, seed)
 				.uiThread()
 				.subscribeBy(

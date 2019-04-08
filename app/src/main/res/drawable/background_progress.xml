@@ -3,7 +3,8 @@
 
 	<item
 		android:id="@android:id/background"
-		android:drawable="@drawable/background_container_round"></item>
+		android:drawable="@drawable/background_container_round" />
+
 	<item android:id="@android:id/progress">
 		<clip android:drawable="@drawable/background_tab_round" />
 	</item>
