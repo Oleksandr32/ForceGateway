@@ -24,89 +24,94 @@ import kotlin.math.roundToInt
 
 @ActivityScope
 class EncryptViewModel @Inject constructor(
-        private val view: EncryptView,
-        private val router: EncryptRouter,
-        private val cryptoInteractor: CryptoInteractor
+		private val view: EncryptView,
+		private val router: EncryptRouter,
+		private val cryptoInteractor: CryptoInteractor
 ) : BaseObservable() {
 
-    companion object {
+	companion object {
 
-        private const val DEFAULT_KEY_SIZE = 64
-        private const val DISCRETE_KEY_SIZE = 2.0
-    }
+		private const val DEFAULT_KEY_SIZE = 64
+		private const val DISCRETE_KEY_SIZE = 2.0
+	}
 
-    @get:Bindable
-    var currentStep by ObservableField(fieldId = BR.currentStep, value = PICK_FILES)
+	@get:Bindable
+	var currentStep by ObservableField(fieldId = BR.currentStep, value = PICK_FILES)
 
-    @get:Bindable
-    var pickedFiles by ObservableField(fieldId = BR.pickedFiles, value = emptyList<File>())
+	@get:Bindable
+	var pickedFiles by ObservableField(fieldId = BR.pickedFiles, value = emptyList<File>())
 
-    @get:Bindable
-    var algorithm by ObservableField(fieldId = BR.algorithm, value = CryptoAlgorithm.AES)
+	@get:Bindable
+	var algorithm by ObservableField(fieldId = BR.algorithm, value = CryptoAlgorithm.AES)
 
-    @get:Bindable
-    var keySize by ObservableField(fieldId = BR.keySize, value = DEFAULT_KEY_SIZE)
+	@get:Bindable
+	var keySize by ObservableField(fieldId = BR.keySize, value = DEFAULT_KEY_SIZE)
 
-    @get:Bindable
-    var seed by ObservableField(fieldId = BR.seed, value = "")
+	@get:Bindable
+	var seed by ObservableField(fieldId = BR.seed, value = "")
 
-    @Bindable("currentStep")
-    fun getBottomButtonResId(): Int {
-        return when (currentStep) {
-            PICK_FILES -> R.string.btn_continue
-            SETTINGS -> R.string.btn_generate_key
-        }
-    }
+	@Bindable("currentStep")
+	fun getBottomButtonResId(): Int {
+		return when (currentStep) {
+			PICK_FILES -> R.string.btn_continue
+			SETTINGS -> R.string.btn_generate_key
+		}
+	}
 
-    @Bindable("currentStep", "pickedFiles")
-    fun isBottomButtonEnabled(): Boolean {
-        return when (currentStep) {
-            PICK_FILES, SETTINGS -> pickedFiles.isNotEmpty()
-        }
-    }
+	@Bindable("currentStep", "pickedFiles")
+	fun isBottomButtonEnabled(): Boolean {
+		return when (currentStep) {
+			PICK_FILES, SETTINGS -> pickedFiles.isNotEmpty()
+		}
+	}
 
-    private val disposables = CompositeDisposable()
-    private var key: Key? = null
+	@Bindable
+	fun getAlgorithmsNames(): List<String> {
+		return CryptoAlgorithm.values().map(CryptoAlgorithm::name)
+	}
 
-    init {
-        router.navigateToFilesPicker()
-    }
+	private val disposables = CompositeDisposable()
+	private var key: Key? = null
 
-    fun goToNextStep() {
-        when (currentStep) {
-            PICK_FILES -> router.navigateToEncryptSettings()
-            SETTINGS -> generateKey()
-        }
-        currentStep = currentStep.next() ?: SETTINGS
-    }
+	init {
+		router.navigateToFilesPicker()
+	}
 
-    fun goToPreviousStep() {
-        currentStep = currentStep.prev() ?: PICK_FILES
-    }
+	fun goToNextStep() {
+		when (currentStep) {
+			PICK_FILES -> router.navigateToEncryptSettings()
+			SETTINGS -> generateKey()
+		}
+		currentStep = currentStep.next() ?: SETTINGS
+	}
 
-    fun onStoragePermissionsDenied() {
-        router.finish()
-    }
+	fun goToPreviousStep() {
+		currentStep = currentStep.prev() ?: PICK_FILES
+	}
 
-    fun onFilesPick(files: List<File>) {
-        pickedFiles = files
-    }
+	fun onStoragePermissionsDenied() {
+		router.finish()
+	}
 
-    fun onKeySizeChanged() {
-        val coerceKeySize = keySize.coerceAtLeast(DEFAULT_KEY_SIZE).toDouble()
-        val discrete = log2(coerceKeySize).roundToInt()
-        keySize = DISCRETE_KEY_SIZE.pow(discrete.toDouble()).toInt()
-    }
+	fun onFilesPick(files: List<File>) {
+		pickedFiles = files
+	}
 
-    private fun generateKey() {
-        cryptoInteractor.generateKey(algorithm, keySize, seed)
-                .uiThread()
-                .subscribeBy(
-                        onSuccess = {
-                            key = it
-                        },
-                        onError = Throwable::printStackTrace
-                )
-                .addTo(disposables)
-    }
+	fun onKeySizeChanged() {
+		val coerceKeySize = keySize.coerceAtLeast(DEFAULT_KEY_SIZE).toDouble()
+		val discrete = log2(coerceKeySize).roundToInt()
+		keySize = DISCRETE_KEY_SIZE.pow(discrete.toDouble()).toInt()
+	}
+
+	private fun generateKey() {
+		cryptoInteractor.generateKey(algorithm, keySize, seed)
+				.uiThread()
+				.subscribeBy(
+						onSuccess = {
+							key = it
+						},
+						onError = Throwable::printStackTrace
+				)
+				.addTo(disposables)
+	}
 }

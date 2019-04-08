@@ -13,61 +13,94 @@
 			type="com.oleksandrlysun.forcegateway.presentation.screens.encrypt.EncryptViewModel" />
 	</data>
 
-	<LinearLayout
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:clipToPadding="false"
-		android:orientation="vertical"
-		android:padding="16dp">
-
-		<com.google.android.material.tabs.TabLayout
-			android:id="@+id/tab_layout_algorithms"
-			style="@style/AppTheme.Widget.TabLayout"
-			android:layout_width="match_parent"
-			android:layout_height="@dimen/tab_height"
-			android:layout_marginBottom="24dp"
-			app:selectedTabPosition="@={Converter.convertCryptoAlgorithmToPosition(viewModel.algorithm)}"
-			app:titles="@{CryptoAlgorithm.values()}" />
+		android:fillViewport="true">
 
 		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="16dp"
-			android:gravity="center_vertical"
-			android:orientation="horizontal">
+			android:layout_height="match_parent"
+			android:clipToPadding="false"
+			android:orientation="vertical"
+			android:paddingStart="16dp"
+			android:paddingEnd="16dp">
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="8dp"
-				android:text="@string/key_size"
-				android:textAppearance="?textAppearanceSubhead" />
+			<com.google.android.material.tabs.TabLayout
+				style="@style/AppTheme.Widget.TabLayout"
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/tab_height"
+				android:layout_marginTop="24dp"
+				android:layout_marginBottom="48dp"
+				app:selectedTabPosition="@={Converter.convertCryptoAlgorithmToPosition(viewModel.algorithm)}"
+				app:titles="@{viewModel.algorithmsNames}" />
 
-			<androidx.appcompat.widget.AppCompatSeekBar
-				android:id="@+id/seek_bar_key_size"
-				style="@style/AppTheme.Widget.SeekBar"
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:onStopTrackingTouch="@{_ -> viewModel.onKeySizeChanged()}"
-				android:progress="@={viewModel.keySize}" />
-		</LinearLayout>
+				android:layout_marginBottom="8dp"
+				android:orientation="horizontal">
 
-		<androidx.cardview.widget.CardView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<com.google.android.material.textfield.TextInputLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/edit_text_seed"
-					android:layout_width="match_parent"
+				<TextView
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:background="@android:color/transparent"
-					android:hint="@string/hint_enter_seed"
-					android:padding="8dp" />
-			</com.google.android.material.textfield.TextInputLayout>
-		</androidx.cardview.widget.CardView>
-	</LinearLayout>
+					android:layout_marginEnd="8dp"
+					android:text="@string/key_size"
+					android:textAppearance="?textAppearanceSubhead" />
+
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<androidx.appcompat.widget.AppCompatSeekBar
+						android:id="@+id/seek_bar_key_size"
+						style="@style/AppTheme.Widget.SeekBar"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:onStopTrackingTouch="@{_ -> viewModel.onKeySizeChanged()}"
+						android:progress="@={viewModel.keySize}"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent" />
+
+					<FrameLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:layout_constraintEnd_toEndOf="@id/seek_bar_key_size"
+						app:layout_constraintHorizontal_bias="@{(float) viewModel.keySize / @integer/max_key_progress}"
+						app:layout_constraintStart_toStartOf="@id/seek_bar_key_size"
+						app:layout_constraintTop_toBottomOf="@id/seek_bar_key_size">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="center"
+							android:text="@{viewModel.keySize + `b`}"
+							android:textAppearance="?textAppearanceBody2" />
+					</FrameLayout>
+
+				</androidx.constraintlayout.widget.ConstraintLayout>
+			</LinearLayout>
+
+			<androidx.cardview.widget.CardView
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_marginBottom="24dp"
+				android:layout_weight="1"
+				android:minHeight="160dp">
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<com.google.android.material.textfield.TextInputEditText
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:background="@android:color/transparent"
+						android:gravity="top"
+						android:hint="@string/hint_enter_seed"
+						android:padding="8dp" />
+				</com.google.android.material.textfield.TextInputLayout>
+			</androidx.cardview.widget.CardView>
+		</LinearLayout>
+	</ScrollView>
 </layout>
