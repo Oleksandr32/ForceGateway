@@ -9,6 +9,7 @@ buildscript {
         rx_android_version = '2.1.1'
         rx_java_version = '2.2.5'
         rx_kotlin_version = '2.3.0'
+        bluetooth_version = '2.1.1'
         libs = [
                 kotlin          : ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + kotlin_version),
                 support         : ('androidx.appcompat:appcompat:' + support_version),
@@ -19,7 +20,8 @@ buildscript {
                 daggerCompiler  : ('com.google.dagger:dagger-compiler:' + dagger_version),
                 rxAndroid       : ('io.reactivex.rxjava2:rxandroid:' + rx_android_version),
                 rxJava          : ('io.reactivex.rxjava2:rxjava:' + rx_java_version),
-                rxKotlin        : ('io.reactivex.rxjava2:rxkotlin:' + rx_kotlin_version)
+                rxKotlin        : ('io.reactivex.rxjava2:rxkotlin:' + rx_kotlin_version),
+                bluetooth       : ('com.github.ivbaranov:rxbluetooth2:' + bluetooth_version)
         ]
     }
 
