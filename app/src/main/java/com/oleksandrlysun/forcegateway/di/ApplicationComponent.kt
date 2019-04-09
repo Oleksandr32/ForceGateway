@@ -2,6 +2,8 @@ package com.oleksandrlysun.forcegateway.di
 
 import com.oleksandrlysun.forcegateway.data.di.DataModule
 import com.oleksandrlysun.forcegateway.domain.di.DomainModule
+import com.oleksandrlysun.forcegateway.presentation.fragments.bluetoothconnection.di.BluetoothConnectionComponent
+import com.oleksandrlysun.forcegateway.presentation.fragments.bluetoothconnection.di.BluetoothConnectionModule
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptComponent
 import com.oleksandrlysun.forcegateway.presentation.screens.encrypt.di.EncryptModule
 import com.oleksandrlysun.forcegateway.presentation.fragments.filespicker.di.FilesPickerComponent
@@ -20,4 +22,6 @@ interface ApplicationComponent {
 	fun getEncryptComponent(module: EncryptModule): EncryptComponent
 
 	fun getFilesPickerComponent(module: FilesPickerModule): FilesPickerComponent
+
+	fun getBluetoothConnectionComponent(module: BluetoothConnectionModule): BluetoothConnectionComponent
 }
