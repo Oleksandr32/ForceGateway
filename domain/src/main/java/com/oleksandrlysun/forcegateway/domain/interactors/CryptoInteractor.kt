@@ -3,7 +3,6 @@ package com.oleksandrlysun.forcegateway.domain.interactors
 import com.oleksandrlysun.forcegateway.domain.boundaries.CryptoService
 import com.oleksandrlysun.forcegateway.domain.boundaries.StorageService
 import com.oleksandrlysun.forcegateway.domain.models.CryptoAlgorithm
-import com.oleksandrlysun.forcegateway.domain.models.CryptoAlgorithmSettings
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -17,8 +16,7 @@ class CryptoInteractor @Inject constructor(
 ) {
 
 	fun generateKey(algorithm: CryptoAlgorithm, keySize: Int, seed: String): Single<Key> {
-		val settings = CryptoAlgorithmSettings(algorithm, seed, keySize)
-		return cryptoService.generateKey(settings)
+		return cryptoService.generateKey(algorithm, seed, keySize)
 				.subscribeOn(Schedulers.io())
 	}
 
